@@ -1,8 +1,8 @@
 {
   "name": "angular-imgcache",
   "main": "angular-imgcache.js",
-  "version": "1.1.0",
-  "homepage": "https://github.com/maistho/angular-imgcache",
+  "version": "1.1.0GT",
+  "homepage": "https://github.com/GartorwareCorp/angular-imgcache.js",
   "authors": [
     "gartorware <gartorware@gmail.com>",
     "maistho <maistho@gmail.com>",
