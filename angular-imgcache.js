@@ -41,8 +41,17 @@ angular.module('ImgCache', [])
 })
 
 .directive('imgCache', ['ImgCache', function() {
+
+    var isFunction = function (obj) {
+        return typeof obj === 'function';
+    };
+
     return {
         restrict: 'A',
+        scope: {
+            icScopeSrc: '&',
+            icScopeBg: '&'
+        },
         link: function(scope, el, attrs) {
             var setImg = function(type, el, src) {
                 ImgCache.getCachedFileURL(src, function(src, dest) {
@@ -84,15 +93,37 @@ angular.module('ImgCache', [])
                 });
             };
 
-            attrs.$observe('icSrc', function(src) {
+            var loadScopeImg = function (type, el, value) {
+                if (value && isFunction(value.then)) {
+                    value.then(function (data) {
+                        loadImg(type, el, data);
+                    });
+                } else {
+                    loadImg(type, el, value);
+                }
+            };
+
+            attrs.$observe('icSrc', function (src) {
                 if (src) {
                     loadImg('src', el, src);
                 }
             });
 
-            attrs.$observe('icBg', function(src) {
+            attrs.$observe('icBg', function (src) {
                 if (src) {
                     loadImg('bg', el, src);
+                }
+            });
+
+            scope.$watch('icScopeSrc', function (newValue, oldValue) {
+                if (newValue) {
+                    loadScopeImg('src', el, newValue());
+                }
+            });
+
+            scope.$watch('icScopeBg', function (newValue, oldValue) {
+                if (newValue) {
+                    loadScopeImg('bg', el, newValue());
                 }
             });
 

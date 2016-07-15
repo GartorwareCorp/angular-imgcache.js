@@ -119,6 +119,31 @@ Or set elements `background-image` with `ic-bg` attribute.
 <div img-cache ic-bg="{{imgUrl}}" ></div>
 ```
 
+We can bind src of an image to a scope variable which can be string, object (promise) or even function (returning string/promise). In order to do so we can use `ic-scope-src` attribute.
+
+```javascript
+$scope.imageUrlPromise = $q.when(...);
+```
+```html
+<img img-cache ic-scope-src="imageUrlPromise" />
+```
+---
+
+```javascript
+$scope.getImagePromise = function(profileId) {
+    var defered = $q.defer();
+    $http.get(profileId).success(function (data) {
+      defered.resolve(data);
+    });
+    return defered.promise.
+};
+```
+```html
+<img img-cache ic-scope-src="getImagePromise(userProfileId)" />
+```
+
+Similarly, there is an `ic-scope-bg` attribute.
+
 ## Contributing
 
 If you have any issues, please feel free to open an issue.
