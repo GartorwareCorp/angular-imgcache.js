@@ -116,13 +116,13 @@ angular.module('ImgCache', [])
             });
 
             scope.$watch('icScopeSrc', function (newValue, oldValue) {
-                if (newValue) {
+                if (newValue()) {
                     loadScopeImg('src', el, newValue());
                 }
             });
 
             scope.$watch('icScopeBg', function (newValue, oldValue) {
-                if (newValue) {
+                if (newValue()) {
                     loadScopeImg('bg', el, newValue());
                 }
             });
