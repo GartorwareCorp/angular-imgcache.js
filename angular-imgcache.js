@@ -53,6 +53,11 @@ angular.module('ImgCache', [])
             icScopeBg: '&'
         },
         link: function(scope, el, attrs) {
+
+            var isPathAbsolute = function(path) {
+                return /^(?:\/|[a-z]+:\/\/)/.test(path);
+            };
+              
             var setImg = function(type, el, src) {
                 ImgCache.getCachedFileURL(src, function(src, dest) {
                     if (type === 'bg') {
@@ -76,6 +81,11 @@ angular.module('ImgCache', [])
             };
 
             var loadImg = function(type, el, src) {
+                if(!isPathAbsolute(src)) { // Avoid IllegalArgumentException: Relative URIs are not supported.
+                    fallbackImg(type, el, src);
+                    return;
+                }
+
                 ImgCache.$promise.then(function() {
                     ImgCache.isCached(src, function(path, success) {
                         if (success) {
